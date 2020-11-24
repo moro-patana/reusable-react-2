@@ -3,16 +3,26 @@ import ReactDOM from 'react-dom';
 
 const CharacterCounterInput = ({ text, defaults }) => {
 	const maxLength = 280;
-
+	const [textArea, setTextArea] = useState("")
+	const className = textArea.length > maxLength ? "tooLong" : "";
+    function addTextToMood(text) {
+		setTextArea(prev => prev += text + " ")
+	}
 	return (
-		<div className="counterInput">
+		<div className={`counterInput ${className}`}>
 			<div>
 				{defaults.map(b => {
-					return <button key={b}>{b}</button>;
+					return <button key={b} onClick={() => addTextToMood(b)}>{b}</button>;
 				})}
 			</div>
-			<textarea placeholder={text} />
-			<div>0/{maxLength}</div>
+			<textarea 
+			placeholder={text}
+			value={textArea}
+			onChange={(e) => 
+			setTextArea(e.target.value)
+			}
+			 />
+			<div>{textArea.length}/{maxLength}</div>
 		</div>
 	);
 };
